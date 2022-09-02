@@ -29,6 +29,7 @@ const convertCents = (cents) => (cents / 100).toFixed(2);
 
 const createWidget = async (size) => {
   const widget = new ListWidget();
+  widget.url = `https://bank.hackclub.com/${ORGANIZATION_ID}`;
   const data = await fetchData();
   const mainStack = widget.addStack();
   mainStack.layoutVertically();
@@ -53,7 +54,22 @@ const createWidget = async (size) => {
   );
   for (const transaction of transactions) {
     const transactionItem = mainStack.addStack();
+    const transactionId = transaction.id.replace("txn_", "");
+    transactionItem.url = `https://bank.hackclub.com/hcb/${transactionId}`;
     transactionItem.centerAlignContent();
+    // const goldGradient = new LinearGradient();
+    // const gradientNum = size === "small" ? 2 : 4;
+    // const colorsArr = Array.from({ length: gradientNum }).flatMap(() => [
+    //   new Color("#e2b142"),
+    //   new Color("#fbe87a"),
+    // ]);
+    // colorsArr.push(new Color("#e2b142"));
+    // goldGradient.colors = colorsArr;
+    // goldGradient.locations = Array.from({ length: gradientNum * 2 + 1 }).map(
+    //   (_, idx) => idx / (gradientNum * 2)
+    // );
+    // goldGradient.startPoint = new Point(0, 0);
+    // goldGradient.endPoint = new Point(1, 0);
     transactionItem.backgroundColor =
       transaction.amount_cents >= 0 ? greenLine : redLine;
     transactionItem.setPadding(2, 4, 2, 4);
